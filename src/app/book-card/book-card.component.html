@@ -1,5 +1,9 @@
 <p>book-card works!</p>
 
-<h1>Moby Dick</h1>
+<h1>{{ content?.title }}</h1>
 
-<h2>Herman Melville</h2>
+<h2 [style.backgroundColor]="custom" [innerHtml]="content?.abstract"></h2>
+
+<button (click)="handleDetailEvent($event)">
+    Detail
+</button>

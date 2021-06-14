@@ -1,3 +1,7 @@
 <h1>Willkommen bei Sybit</h1>
 
-<sb-book-card></sb-book-card>
+<button (click)="visible = !visible">
+  Toggle
+</button>
+
+<sb-book-list [hidden]="!visible"></sb-book-list>
