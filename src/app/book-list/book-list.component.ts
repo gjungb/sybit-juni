@@ -1,34 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { interval, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Book } from '../model/book';
+import { BookApiService } from '../shared/book-api.service';
 
 @Component({
   selector: 'sb-book-list',
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss'],
 })
-export class BookListComponent implements OnInit {
-  books: Book[] = [
-    {
-      isbn: '123',
-      title: 'How to win friends',
-      author: 'Dale Carnegie',
-      abstract: 'How to Win Friends and Influence ...',
-    },
-    {
-      isbn: '456',
-      title: 'The Willpower Instinct: How Self-Control Works ...',
-      author: 'Kelly McGonigal',
-      abstract: 'Based on Stanford University ...',
-    },
-    {
-      isbn: '789',
-      author: 'Simon Sinek',
-      title: 'Start with WHY',
-      abstract: "START WITH WHY shows that the leaders who've ...",
-    },
-  ];
+// stateful component
+export class BookListComponent implements OnInit, OnDestroy {
+  books: Book[] = [];
 
-  constructor() {}
+  private sub!: Subscription;
 
-  ngOnInit(): void {}
+  constructor(private readonly api: BookApiService) {}
+
+  ngOnInit(): void {
+    const ticker$ = interval(1000).pipe(tap((res) => console.log(res)));
+
+    this.sub = ticker$.subscribe();
+
+    this.api.getAll().subscribe((res) => {
+      this.books = res;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
+  }
 }
