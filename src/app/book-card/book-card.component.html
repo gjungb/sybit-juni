@@ -5,6 +5,12 @@
 
 <h2 [style.backgroundColor]="custom" [innerHtml]="content?.abstract"></h2>
 
+<p>
+    {{ content?.isbn | sbIsbn }}
+</p>
+
 <button (click)="handleDetailEvent($event)">
     Detail
 </button>
+
+<pre><code>{{ content | json }}</code></pre>

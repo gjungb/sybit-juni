@@ -1,0 +1,16 @@
+<p>book-edit works!</p>
+
+<!-- Reactive -->
+<form [formGroup]="form">
+    <input type="text" [formControlName]="'title'">
+    <button [disabled]="form.invalid" type="submit">Absenden</button>
+</form>
+
+<!-- Template driven -->
+<form #bookForm="ngForm" (ngSubmit)="updateBook(bookForm.value)">
+    <input #bookTitle="ngModel" type="text" [(ngModel)]="book.title" name="title" required minlength="3">
+    <p *ngIf="bookTitle.touched && bookTitle.hasError('required')">
+        Bitte ausfüllen!
+    </p>
+    <button [disabled]="bookForm.invalid" type="submit">Absenden</button>
+</form>
